@@ -1,39 +1,54 @@
 import React, { Component } from "react";
 import ApiService from "../api/todoapi";
 
+// creating object for calling api methods.
 const apiService = new ApiService();
 
+//login page
 class Login extends Component {
+  // constructor
   constructor(props) {
     super(props);
+
+    // creating state variable.
     this.state = {
       email: "",
       password: "",
     };
   }
 
+  // changing state of variables.
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  // Routing to sigup page.
   jumptoSignup = () => {
     window.location.href = "/signup";
   };
 
+  // Calling login method on submitting.
   handleSubmit = (e) => {
     e.preventDefault();
     this.userLogin();
   };
 
+  // calling login api method for checking
   userLogin() {
     const { email, password } = this.state;
+
+    // calling api method for validating login.
     apiService
       .user_Login(email, password)
       .then((response) => {
         if (response.status) {
           console.log("***********" + JSON.stringify(response));
           console.log("***********" + JSON.stringify(response.status));
+
+          // set session
           localStorage.setItem("userID", response.status);
+
+          // redirect to todo page.
           window.location.href = "/todo";
         } else {
           window.alert("Invalid login");
@@ -44,6 +59,7 @@ class Login extends Component {
       });
   }
 
+  // design of login page.
   render() {
     const { email, password } = this.state;
 
