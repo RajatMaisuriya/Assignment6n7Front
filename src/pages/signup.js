@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import ApiService from "../api/todoapi";
 
+// creating object for calling api methods.
 const apiService = new ApiService();
 
+//signup page class
 class signup extends Component {
+  // constructor
   constructor(props) {
     super(props);
+
+    // creating state variable.
     this.state = {
       users: [],
       name: "",
@@ -14,24 +19,27 @@ class signup extends Component {
     };
   }
 
+  // changing state of variables.
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  // Calling login method on submitting.
   handleSubmit = (e) => {
     e.preventDefault();
     this.signUpUser();
   };
 
-  componentDidMount() {}
-
+  // calling signup api method for checking
   signUpUser() {
     const { name, userName, password } = this.state;
 
+    // calling api method for signup.
     apiService
       .addUser(name, userName, password)
       .then((response) => {
         if (response) {
+          // redirect to login page if user registered.
           window.location.href = "/";
         } else {
           window.alert(response.message);
@@ -42,6 +50,7 @@ class signup extends Component {
       });
   }
 
+  // design of signup page/
   render() {
     const { name, userName, password } = this.state;
 

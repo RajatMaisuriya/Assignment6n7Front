@@ -1,10 +1,16 @@
 import React, { Component } from "react";
 import ApiService from "../api/todoapi";
 
+// creating object for calling api methods.
 const apiService = new ApiService();
+
+//todo page class
 class Todo extends Component {
+  // constructor
   constructor(props) {
     super(props);
+
+    // creating state variable
     this.state = {
       list: [],
       todoItems: [],
@@ -15,8 +21,9 @@ class Todo extends Component {
       editTaskId: null,
     };
   }
-
+  // changing state of variables.
   handleChange = (e) => {
+    // getting value of status logic.
     if (e.target.name === "status") {
       this.setState({ status: e.target.value });
     } else {
@@ -24,6 +31,7 @@ class Todo extends Component {
     }
   };
 
+  // Calling login method on submitting.
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -34,6 +42,7 @@ class Todo extends Component {
     }
   };
 
+  // calling api for getting task data after successfull login of perticular user.
   componentDidMount() {
     if (localStorage.getItem("userID")) {
       this.getTask();
@@ -42,52 +51,52 @@ class Todo extends Component {
     }
   }
 
+  // delete session and logout.
   logout() {
     localStorage.setItem("userID", "");
     window.location.href = "/";
   }
 
+  // update state variables.
   updateTask(item) {
     this.setState({
       title: item.taskTitle,
       des: item.description,
       ddate: item.dueDate,
       status: item.status,
-      editTaskId: item.TaskID, // Set the editTaskId to the selected task's TaskID
+      editTaskId: item.TaskID,
     });
   }
 
+  // calling delete api method
   deleteTask(taskId) {
     const userID = localStorage.getItem("userID");
+
     apiService.delete_task(taskId, userID).then((response) => {
       if (response.status) {
         this.getTask(); // Refresh the task list after deletion
       } else {
-        window.alert(response.message);
+        //window.alert(response.message);
       }
     });
-    // .catch((error) => {
-    //   window.alert("Error deleting task: " + error);
-    // });
   }
 
+  // calling get task api method
   getTask() {
-    const userID = localStorage.getItem("userID");
+    const userID = localStorage.getItem("userID"); // getting session value
     console.log(userID);
     apiService.getTask(userID).then((response) => {
       if (response) {
         const result = JSON.stringify(response);
         console.log(result);
-        this.setState({ todoItems: response });
+        this.setState({ todoItems: response }); // getting value in to display on todo page.
       } else {
         this.setState({ todoItems: response });
       }
     });
-    // .catch((error) => {
-    //   window.alert("Error getting task:" + error);
-    // });
   }
 
+  // calling api for creating todo or updating todo.
   createTodo() {
     const userID = localStorage.getItem("userID");
     const st = this.state.status;
@@ -109,9 +118,6 @@ class Todo extends Component {
             window.alert(response.message);
           }
         });
-      // .catch((error) => {
-      //   window.alert("Error updating task: " + error);
-      // });
     } else {
       // Create task
       apiService.create_Todo(title, des, ddate, st, userID).then((response) => {
@@ -121,12 +127,9 @@ class Todo extends Component {
           window.alert(response.message);
         }
       });
-      // .catch((error) => {
-      //   window.alert("Error creating task: " + error);
-      // });
     }
 
-    // Reset the form fields after submit/update
+    // Reset the form fields after submit/update.
     this.setState({
       title: "",
       des: "",
@@ -135,6 +138,7 @@ class Todo extends Component {
     });
   }
 
+  // todo design page.
   render() {
     const { todoItems, title, des, ddate, status, editTaskId } = this.state;
     return (
