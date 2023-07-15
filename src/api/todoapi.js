@@ -17,7 +17,7 @@ class todoapi {
         // Getting response and validating it.
         .then((response) => {
           if (!response.ok) {
-            throw new Error("Error while adding user data");
+            throw new Error("Error while adding user data.");
           }
 
           // Sending response to the signup page.
