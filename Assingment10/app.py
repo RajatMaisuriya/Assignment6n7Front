@@ -12,10 +12,15 @@ def perform_task(file_path):
 
     # Display rows
     print("Preview the dataset.")
-    print(df_RM)
+    print(df_RM.head())
+
+
+    # Get basic information about dataset.
+    print("\nDataset Details.")
+    print(df_RM.info())
 
 
 
 if __name__ =="__main__":
-    file_path=r"F:\BDSA\BDProgramming\Assingment10\titanic.csv"
+    file_path=r"F:\BDSA\Assignment6n7Front\Assingment10\ontario_public_library_statistics_2022_open_data.csv"
     perform_task(file_path)
