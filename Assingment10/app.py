@@ -195,7 +195,7 @@ def perform_task(): # Method for performing all the tasks.
     sn_RM.countplot(x='Pclass', hue='Sex', data=df_RM)
     plt_RM.xlabel('Sex')
     plt_RM.ylabel('Count')
-    plt_RM.title('Survival Count based on Passenger Class')
+    plt_RM.title('Comparing Sex based on Price class')
     plt_RM.legend(title='Sex', labels=['male', 'female'])
     plt_RM.show()
 
